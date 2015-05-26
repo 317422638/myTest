@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+	<bean id="beetlConfig" class="org.beetl.ext.spring.BeetlGroupUtilConfiguration"
+		init-method="init">
+		<property name="configFileResource" value="/WEB-INF/beetl.properties" />
+	</bean>
+
+
+	<bean id="viewResolver" class="org.beetl.ext.spring.BeetlSpringViewResolver">
+		<property name="contentType" value="text/html;charset=UTF-8" />
+	</bean>
+	
+	<mvc:annotation-driven>   
+	    <mvc:message-converters>     
+	        <bean class="org.springframework.http.converter.StringHttpMessageConverter">     
+	            <property name="supportedMediaTypes">     
+	                <list>     
+	                    <value>text/plain;charset=UTF-8</value>     
+	                    <value>text/html;charset=UTF-8</value>     
+	                </list>     
+	            </property>     
+	        </bean>      
+	    </mvc:message-converters>     
+	</mvc:annotation-driven>
+
+	<!-- 指定自动扫描路径 -->
+	<context:component-scan base-package="cn.my"></context:component-scan>
+	
+	<!-- 
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+	<property name="exceptionMappings">
+		<props>
+			<prop key="NumberFormatException">number</prop>表示当抛出NumberFormatException的时候就返回名叫number的视图
+			<prop key="NullPointerException">null</prop>
+		</props>
+	</property>
+	<property name="defaultErrorView" value="exception"/>表示当抛出异常但没有在exceptionMappings里面找到对应的异常时 返回名叫exception的视图
+	<property name="statusCodes">定义在发生异常时视图跟返回码的对应关系
+		<props>
+			<prop key="number">500</prop>表示在发生NumberFormatException时返回视图number，然后这里定义发生异常时视图number对应的HttpServletResponse的返回码是500
+			<prop key="null">503</prop>
+		</props>
+	</property>
+	<property name="defaultStatusCode" value="404"/>表示在发生异常时默认的HttpServletResponse的返回码是多少，默认是200
+	</bean> -->
+	
+</beans>
